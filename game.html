@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    Basic Page Needs
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+    -->
+    <meta charset="utf-8">
+    <title>Dictionary Game</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--
+    Mobile Specific Metas
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    FONT
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+    -->
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <!--
+    CSS
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+    -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/skeleton.css">
+    <link rel="stylesheet" href="css/game.css">
+    <!--
+    Favicon
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+    -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <!--Javascript
+    -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="js/game.js"></script>
+  </head>
+  <body ng-app="DictionaryGame">
+    <div ng-controller="GameCtrl" class="container">
+      <div id="word" class="row">
+        <div class="twelve columns">
+          <h1>{{word}}</h1>
+        </div>
+      </div>
+      <div id="input" ng-show="showInput == true" class="row">
+        <div class="ten columns">
+          <input type="text" placeholder="{{placeholder}}" ng-model="definition">
+        </div>
+        <div class="two columns"><a href="#" ng-click="submitDefinition()" class="button button-primary">{{submitButton}}</a></div>
+      </div>
+      <div ng-repeat="definition in definitions" ng-class="{'voted': $index == voted}" class="row definition">
+        <div class="ten columns">
+          <h5>{{definition}}</h5>
+        </div>
+        <div class="two columns"><a href="#" ng-click="vote($index)" ng-show="$index != voted" ng-if="canVote" class="button">Vote</a></div>
+      </div>
+    </div>
+  </body>
+</html>

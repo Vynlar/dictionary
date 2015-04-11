@@ -1,0 +1,56 @@
+doctype html
+head
+  //
+    Basic Page Needs
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(charset='utf-8')
+  title Dictionary
+  meta(name='description', content='')
+  meta(name='author', content='')
+  //
+    Mobile Specific Metas
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  //
+    FONT
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
+  //
+    CSS
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='stylesheet', href='css/normalize.css')
+  link(rel='stylesheet', href='css/skeleton.css')
+  link(rel='stylesheet', href='css/index.css')
+  //
+    Favicon
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='icon', type='image/png', href='images/favicon.png')
+  script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js")
+  script(src="js/index.js")
+//
+  Primary Page Layout
+  ––––––––––––––––––––––––––––––––––––––––––––––––––
+body(ng-app="HomePage")
+  .container#mainContainer(ng-controller="HomePageCtrl")
+    .row#header
+      .column
+        h1 Dictionary
+        h7.subheading a game about words and fooling {{name}}
+    .row#startNav
+      .three.columns
+        a.button-primary.button(href="/game.html") Create a New Game
+      .three.columns(ng-show="joined == false")
+        a.button(href="#", ng-click="joined = true") Join An existing Game
+      .three.columns#gameIdInput(ng-show="joined == true")
+        input(type="text", placeholder="Enter a game ID", ng-model="gameId")
+      .two.columns#joinButton(ng-show="joined == true")
+        a.button(href="#", ng-click="join()") Join
+  .container#footer
+    .row
+      .six.columns#content
+        p Created by 
+          a(href="http://vynlar.com") Adrian Aleixandre
+          span.spacer
+          a(href="http://kolyaventuri.com") Kolya Venturi
+          span.spacer
+          a(href="http://serps-invaders.com/wp-content/uploads/2014/04/broken-links.jpg") Nick deGarmo
