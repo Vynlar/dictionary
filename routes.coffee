@@ -1,4 +1,13 @@
 accountController = require("./controllers/AccountController")
+roomController = require("./controllers/RoomController")
 module.exports = (app) ->
+
+  #account routes
   app.post "/account/create", accountController.create
   app.get "/account/:username", accountController.read
+
+  #room routes
+  app.get "/room/create", roomController.create
+  app.get "/room/:id", roomController.read
+
+  #auth routes

@@ -1,0 +1,66 @@
+$mainColor: #33C3F0;
+$verticalOffset: 30%;
+
+#infoBox {
+  width: $verticalOffset;
+  margin: auto;
+  border-radius: 0 0 5px 5px;
+  background: $mainColor;
+  text-align: center;
+  //padding-bottom: .rem;
+  color: white;
+}
+
+.playerContainer {
+  position: absolute;
+  left: 0;
+  top: $verticalOffset;
+
+  .playerPanel {
+    width: 25rem;
+    border-radius: 0 5px 5px 0;
+    background: $mainColor;
+    color: white;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    h5 {
+      margin-bottom: 0;
+    }
+  }
+}
+
+#word {
+  margin-top: 15%;
+  h1{
+    text-align: center;
+  }
+}
+
+#input {
+  input[type="text"] {
+    width: 100%;
+  }
+}
+
+.definition {
+  margin-bottom: 2rem;
+  border-radius: 5px;
+  background: rgb(230,230,230);
+  padding: 1rem;
+  word-wrap: normal;
+
+  h5 {
+    margin: 0;
+  }
+
+  a {
+    margin: auto;
+    width: 90%;
+  }
+}
+
+.voted {
+  background: $mainColor;
+  color: white;
+}
