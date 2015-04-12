@@ -9,6 +9,7 @@ module.exports = (app) ->
   #room routes
   app.get "/room/create", roomController.create
   app.get "/room/:id", roomController.read
+  app.post "/room/:id", roomController.join
 
   #auth routes
 
