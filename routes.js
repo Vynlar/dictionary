@@ -10,7 +10,10 @@
     app.post("/account/create", accountController.create);
     app.get("/account/:username", accountController.read);
     app.get("/room/create", roomController.create);
-    return app.get("/room/:id", roomController.read);
+    app.get("/room/:id", roomController.read);
+    return app.get("/", function(req, res) {
+      return res.render("index");
+    });
   };
 
 }).call(this);

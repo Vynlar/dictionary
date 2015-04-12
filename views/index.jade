@@ -41,8 +41,8 @@ body(ng-app="HomePage")
         a.button-primary.button(href="/game.html") Create a New Game
       .three.columns(ng-show="joined == false")
         a.button(href="#", ng-click="joined = true") Join An existing Game
-      .three.columns#gameIdInput(ng-show="joined == true")
-        input(type="text", placeholder="Enter a game ID", ng-model="gameId")
+      .three.columns#roomIdInput(ng-show="joined == true")
+        input(type="text", placeholder="Enter a game ID", ng-model="roomId")
       .two.columns#joinButton(ng-show="joined == true")
         a.button(href="#", ng-click="join()") Join
   .container#footer

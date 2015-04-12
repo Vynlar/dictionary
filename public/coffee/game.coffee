@@ -1,6 +1,5 @@
 angular.module("DictionaryGame", [])
 .controller("GameCtrl", ($scope) ->
-
   $scope.definitions = ["Severely fractured mine-shaft wall",
                         "Prone to hemorrhoids"]
   $scope.placeholder = "Enter a definition for the word here."

@@ -11,3 +11,7 @@ module.exports = (app) ->
   app.get "/room/:id", roomController.read
 
   #auth routes
+
+  #index route
+  app.get "/", (req, res) ->
+    res.render "index"
