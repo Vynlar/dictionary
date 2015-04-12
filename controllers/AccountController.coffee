@@ -1,4 +1,4 @@
-Account = require "../models/Account"
+Account = require()"../models/Models").account
 
 module.exports = {
     create: (req, res) ->
