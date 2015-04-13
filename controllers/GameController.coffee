@@ -20,17 +20,25 @@ module.exports = (io) ->
       if data.roomId?
         _roomId = data.roomId;
         socket.join _roomId
-        console.log "'#{_playerId}' has joined the room '#{_roomId}''"
       #otherwise return an error
       else
         return socket.emit "error", {error: "Room ID was not included in the join request."}
       #if the script gets this far, the room and playerids are set and valid
-      Room.findOne({_id: _roomId}).exec (err, room) ->
-        #
-        socket.emit "word", {word: room.word}
-        #send all the existing definitions to the client
-        for definition in room.definitions
-          socket.emit "definition", definition
+      Account.findOne({_id: _playerId}).exec (err, account) ->
+        if !err? and account?
+          Room.findOne({_id: _roomId}).exec (err, room) ->
+            #send word to the client
+            socket.emit "word", {word: room.word}
+            #send all the existing definitions to the client
+            for definition in room.definitions
+              socket.emit "definition", definition
+            #tell client all the other connected clients
+            for player in room.players
+              socket.emit "connect", {username: player.username}
+            #tell all other clients that this one connected
+            io.to(_roomId).emit "connect", {username: account.username}
+        else
+          socket.emit "message", {error: "Couldn't find the account '#{_playerId}'"}
     #------------------------------------------
     #when a client submits a definition
     #request contains the definition
@@ -42,8 +50,15 @@ module.exports = (io) ->
           if err or !room?
             #couldn't find room
           else
+            #found the room
             definition = {definition: data.definition, playerId: _playerId}
+            #add the definition to the room and publish to the database
             room.definitions.push definition
             room.save()
-            socket.to(_roomId).emit "definition", definition
-            console.log room.definitions
+            #tell all the clients about it
+            io.to(_roomId).emit "definition", definition
+            #get list of clients in the room
+            numConnectedClients = Object.keys(io.nsps["/"].adapter.rooms[_roomId]).length
+            #check if the number of definitions is equal to the number of clients
+            if room.definitions.length >= numConnectedClients
+              io.to(_roomId).emit "done", {message: "All definitions have been submitted"}

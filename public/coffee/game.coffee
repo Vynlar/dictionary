@@ -22,6 +22,18 @@ angular.module("DictionaryGame", [])
     $scope.word = data.word
     $scope.$apply()
 
+  $scope.socket.on "done", (data) ->
+    console.log data
+
+  $scope.socket.on "connect", (data) ->
+    $scope.players.push data
+
+  $scope.socket.on "message", (data) ->
+    if data.error?
+      console.log "Error: #{data.error}"
+    if data.message?
+      console.log "Message: #{data.message}"
+
   #when a definition is recieved, update the model
   $scope.socket.on "definition", (data) ->
     console.log data
