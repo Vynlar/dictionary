@@ -46,7 +46,8 @@
       });
     },
     update: function(req, res) {},
-    "delete": function(req, res) {}
+    "delete": function(req, res) {},
+    login: function(req, res) {}
   };
 
 }).call(this);

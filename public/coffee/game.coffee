@@ -1,5 +1,6 @@
 angular.module("DictionaryGame", [])
 .controller("GameCtrl", ($scope) ->
+  $scope.socket = io()
   $scope.definitions = ["Severely fractured mine-shaft wall",
                         "Prone to hemorrhoids"]
   $scope.placeholder = "Enter a definition for the word here."
@@ -13,6 +14,18 @@ angular.module("DictionaryGame", [])
     {username: "kolyavmk", score: 15},
     {username: "nieodeimus", score: 15}
   ]
+  $scope.roomId = $("#roomId").html()
+
+  $scope.socket.emit "join", {roomId: $scope.roomId}
+
+  #when a word update is recieved, update the model
+  $scope.socket.on "word", (data) ->
+    $scope.word = data.word
+    $scope.$apply()
+
+  #when a definition is recieved, update the model
+  $scope.socket.on "definition", (data) ->
+    $scope.definitions.push data
 
   $scope.submitDefinition = () ->
     if $scope.definition?
