@@ -6,20 +6,19 @@
 
   Account = require("../models/Models").accoun;
 
-  module.exports = {
-    join: function(req, res) {
-      return Room.findOne({
-        _id: req.body.roomId
-      }).exec(function(err, room) {
-        if (err) {
-          return res.json({
-            error: err
-          });
-        } else {
-          return res.json(room);
+  module.exports = function(io) {
+    return io.on("connection", function(socket) {
+      _playerId;
+      _roomId;
+      return socket.on("join", function(data) {
+        var _playerId, _roomId;
+        if (data.roomId != null) {
+          _playerId = data.playerId;
+          _roomId = data.roomId;
+          return socket.join(roomId);
         }
       });
-    }
+    });
   };
 
 }).call(this);

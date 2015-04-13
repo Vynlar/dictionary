@@ -17,3 +17,5 @@ module.exports = (app, io) ->
   #index route
   app.get "/", (req, res) ->
     res.render "index"
+
+  gameController io

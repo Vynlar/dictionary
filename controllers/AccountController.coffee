@@ -22,4 +22,6 @@ module.exports = {
 
     delete: (req, res) ->
 
+    login: (req, res) ->
+      #define session.playerId
 }

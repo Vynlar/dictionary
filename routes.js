@@ -8,15 +8,15 @@
 
   gameController = require("./controllers/GameController");
 
-  module.exports = function(app) {
+  module.exports = function(app, io) {
     app.post("/account/create", accountController.create);
     app.get("/account/:username", accountController.read);
     app.get("/room/create", roomController.create);
     app.get("/room/:id", roomController.read);
-    app.post("/room/:id", gameController.join);
-    return app.get("/", function(req, res) {
+    app.get("/", function(req, res) {
       return res.render("index");
     });
+    return gameController(io);
   };
 
 }).call(this);
