@@ -24,4 +24,6 @@ module.exports = {
 
     login: (req, res) ->
       #define session.playerId
+      req.session.playerId = "derps"
+      res.json {message: "Logged in."}
 }

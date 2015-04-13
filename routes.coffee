@@ -7,6 +7,7 @@ module.exports = (app, io) ->
   #account routes
   app.post "/account/create", accountController.create
   app.get "/account/:username", accountController.read
+  app.post "/login", accountController.login
 
   #room/game routes
   app.get "/room/create", roomController.create

@@ -1,5 +1,5 @@
 Room = require("../models/Models").room
-Account = require("../models/Models").accoun
+Account = require("../models/Models").account
 
 module.exports = (io) ->
   #main socketio connection event
@@ -20,6 +20,7 @@ module.exports = (io) ->
       if data.roomId?
         _roomId = data.roomId;
         socket.join _roomId
+        console.log "'#{_playerId}' has joined the room '#{_roomId}''"
       #otherwise return an error
       else
         return socket.emit "error", {error: "Room ID was not included in the join request."}
@@ -39,7 +40,10 @@ module.exports = (io) ->
         #if so, take the definition and add it to the room
         Room.findOne({_id: _roomId}).exec (err, room) ->
           if err or !room?
-            res.json {error: "Error finding the room."}
+            #couldn't find room
           else
-            room.definitions.push data.definition
+            definition = {definition: data.definition, playerId: _playerId}
+            room.definitions.push definition
             room.save()
+            socket.to(_roomId).emit "definition", definition
+            console.log room.definitions

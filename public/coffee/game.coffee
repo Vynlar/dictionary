@@ -1,8 +1,7 @@
 angular.module("DictionaryGame", [])
 .controller("GameCtrl", ($scope) ->
   $scope.socket = io()
-  $scope.definitions = ["Severely fractured mine-shaft wall",
-                        "Prone to hemorrhoids"]
+  $scope.definitions = []
   $scope.placeholder = "Enter a definition for the word here."
   $scope.voted = -1
   $scope.canVote = true
@@ -25,11 +24,13 @@ angular.module("DictionaryGame", [])
 
   #when a definition is recieved, update the model
   $scope.socket.on "definition", (data) ->
+    console.log data
     $scope.definitions.push data
+    $scope.$apply()
 
   $scope.submitDefinition = () ->
     if $scope.definition?
-      $scope.definitions.unshift $scope.definition
+      $scope.socket.emit "definition", {definition: $scope.definition}
       $scope.showInput = false
   $scope.vote = (index) ->
     if($scope.voted == -1)

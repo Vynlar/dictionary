@@ -38,7 +38,7 @@ body(ng-app="HomePage")
         h7.subheading a game about words and fooling {{name}}
     .row#startNav
       .three.columns
-        a.button-primary.button(href="/game.html") Create a New Game
+        a.button-primary.button(href="/room/create") Create a New Game
       .three.columns(ng-show="joined == false")
         a.button(href="#", ng-click="joined = true") Join An existing Game
       .three.columns#roomIdInput(ng-show="joined == true")
@@ -48,7 +48,7 @@ body(ng-app="HomePage")
   .container#footer
     .row
       .six.columns#content
-        p Created by 
+        p Created by
           a(href="http://vynlar.com") Adrian Aleixandre
           span.spacer
           a(href="http://kolyaventuri.com") Kolya Venturi

@@ -2,7 +2,7 @@
 (function() {
   angular.module("DictionaryGame", []).controller("GameCtrl", function($scope) {
     $scope.socket = io();
-    $scope.definitions = [];
+    $scope.definitions = ["Severely fractured mine-shaft wall", "Prone to hemorrhoids"];
     $scope.placeholder = "Enter a definition for the word here.";
     $scope.voted = -1;
     $scope.canVote = true;
@@ -30,15 +30,11 @@
       return $scope.$apply();
     });
     $scope.socket.on("definition", function(data) {
-      console.log(data);
-      $scope.definitions.push(data);
-      return $scope.$apply();
+      return $scope.definitions.push(data);
     });
     $scope.submitDefinition = function() {
       if ($scope.definition != null) {
-        $scope.socket.emit("definition", {
-          definition: $scope.definition
-        });
+        $scope.definitions.unshift($scope.definition);
         return $scope.showInput = false;
       }
     };
