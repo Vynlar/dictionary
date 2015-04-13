@@ -1,10 +1,12 @@
 express = require("express")
 bodyParser = require("body-parser")
 session = require("express-session")
-io = require("socket.io")
+Server = require("http").Server
 router = require("./routes")
 
 app = express()
+server = Server(app)
+io = require("socket.io")(server)
 
 app.use(bodyParser.json())
 app.use(session({secret: "lkjmagsmohiuy324fm0p8yuagdshklmc190m82y3cr"}))
@@ -14,4 +16,4 @@ app.use express.static "public"
 
 router(app)
 
-app.listen(3000)
+server.listen(3000)

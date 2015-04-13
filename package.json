@@ -25,6 +25,7 @@
     "character-parser": "^1.2.2",
     "express": "^4.12.3",
     "express-session": "^1.11.1",
+    "http": "0.0.0",
     "jade": "^1.9.2",
     "mongoose": "^4.0.1",
     "socket.io": "^1.3.5"
