@@ -7,13 +7,13 @@ module.exports = (app, io) ->
   #account routes
   app.post "/account/create", accountController.create
   app.get "/account/:username", accountController.read
-  app.post "/login", accountController.login
+  
+  #auth routes
+  
 
   #room/game routes
   app.get "/room/create", roomController.create
   app.get "/room/:id", roomController.read
-
-  #auth routes
 
   #index route
   app.get "/", (req, res) ->
