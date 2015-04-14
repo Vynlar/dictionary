@@ -9,9 +9,9 @@
   gameController = require("./controllers/GameController");
 
   module.exports = function(app, io) {
-    app.post("/account/create", accountController.create);
+    app.post("/account", accountController.create);
     app.get("/account/:username", accountController.read);
-    app.post("/login", accountController.login);
+    app.post("/account/login", accountController.login);
     app.get("/room/create", roomController.create);
     app.get("/room/:id", roomController.read);
     app.get("/", function(req, res) {

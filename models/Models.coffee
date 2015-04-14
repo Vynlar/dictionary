@@ -3,7 +3,7 @@ mongoose = require "mongoose"
 mongoose.connect "mongodb://localhost:27017/dictionary"
 
 account = mongoose.Schema {
-  username: String,
+  username: {type: String, unique: true},
   password: String,
   email: String
 }

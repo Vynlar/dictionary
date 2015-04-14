@@ -6,10 +6,13 @@
 
   module.exports = {
     create: function(req, res) {
-      return Room.create({
-        status: "readying"
-      }, function(err, room) {
-        return res.redirect("/room/" + room._id);
+      return Room.create({}, function(err, room) {
+        if ((err != null) || (room == null)) {
+          console.log(err);
+          return res.send("An error occourred when creating the room.");
+        } else {
+          return res.redirect("/room/" + room._id);
+        }
       });
     },
     read: function(req, res) {

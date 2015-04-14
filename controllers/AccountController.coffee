@@ -1,14 +1,15 @@
 Account = require("../models/Models").account
+bcrypt = require("bcryptjs")
 
 module.exports = {
     create: (req, res) ->
-      account = new Account {username: req.body.username, password: req.body.password, email: req.body.email}
-      account.save (err) ->
-        if err
-          res.json {error: "ERROR"}
-        else
-          req.session.user = account
-          res.json {message: "Success! :D"}
+      bcrypt.hash req.body.password, 10, (err, hash) ->
+        account = new Account {username: req.body.username, password: hash, email: req.body.email}
+        account.save (err) ->
+          if err
+            res.json {error: "There was an error when creating your account."}
+          else
+            res.json {message: "Account successfully created."}
     read: (req, res) ->
       console.log(req.params)
       Account.findOne({username: req.params.username}).exec (err, account) ->
@@ -21,4 +22,14 @@ module.exports = {
     update: (req, res) ->
 
     delete: (req, res) ->
+      
+    login: (req, res) ->
+      Account.findOne({username: req.body.username}).exec (err, account) ->
+        bcrypt.compare req.body.password, account.password, (err, valid) ->
+          if valid
+            req.session.playerId = account._id
+            res.json {message: "Successfully logged in."}
+          else
+            req.session.playerId = null
+            res.json {message: "Incorrect username or password"}
 }
