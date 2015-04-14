@@ -8,6 +8,7 @@ module.exports = (app, io) ->
   app.post "/account", accountController.create
   app.get "/account/:username", accountController.read
   app.post "/account/login", accountController.login
+  app.post "/account/login", accountController.login
   
   #auth routes
   
