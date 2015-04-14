@@ -11,7 +11,7 @@ account = mongoose.Schema {
 room = mongoose.Schema {
   word: {type: String, default: "Default"},
   definitions: [mongoose.Schema {definition: String, playerId: String}]
-  status: {type: String, enum: ["readying", "playing"] ,default: "readying"},
+  status: {type: String, enum: ["readying", "playing"], default: "readying"},
   players: [account]
 }
 
