@@ -3,7 +3,7 @@ mongoose = require "mongoose"
 mongoose.connect "mongodb://localhost:27017/dictionary"
 
 account = mongoose.Schema {
-  username: String,
+  username: {type: String, unique: true},
   password: String,
   email: String
 }
@@ -11,7 +11,7 @@ account = mongoose.Schema {
 room = mongoose.Schema {
   word: {type: String, default: "Default"},
   definitions: [mongoose.Schema {definition: String, playerId: String}]
-  status: {type: String, enum: ["readying", "playing"] ,default: "readying"},
+  status: {type: String, enum: ["readying", "playing"], default: "readying"},
   players: [account]
 }
 

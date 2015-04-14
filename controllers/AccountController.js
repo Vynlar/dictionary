@@ -1,27 +1,30 @@
 (function() {
-  var Account;
+  var Account, bcrypt;
 
   Account = require("../models/Models").account;
 
+  bcrypt = require("bcryptjs");
+
   module.exports = {
     create: function(req, res) {
-      var account;
-      account = new Account({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email
-      });
-      return account.save(function(err) {
-        if (err) {
-          return res.json({
-            error: "ERROR"
-          });
-        } else {
-          req.session.user = account;
-          return res.json({
-            message: "Success! :D"
-          });
-        }
+      return bcrypt.hash(req.body.password, 10, function(err, hash) {
+        var account;
+        account = new Account({
+          username: req.body.username,
+          password: hash,
+          email: req.body.email
+        });
+        return account.save(function(err) {
+          if (err) {
+            return res.json({
+              error: "There was an error when creating your account."
+            });
+          } else {
+            return res.json({
+              message: "Account successfully created."
+            });
+          }
+        });
       });
     },
     read: function(req, res) {
@@ -45,7 +48,26 @@
       });
     },
     update: function(req, res) {},
-    "delete": function(req, res) {}
+    "delete": function(req, res) {},
+    login: function(req, res) {
+      return Account.findOne({
+        username: req.body.username
+      }).exec(function(err, account) {
+        return bcrypt.compare(req.body.password, account.password, function(err, valid) {
+          if (valid) {
+            req.session.playerId = account._id;
+            return res.json({
+              message: "Successfully logged in."
+            });
+          } else {
+            req.session.playerId = null;
+            return res.json({
+              message: "Incorrect username or password"
+            });
+          }
+        });
+      });
+    }
   };
 
 }).call(this);

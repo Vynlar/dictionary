@@ -5,8 +5,9 @@ gameController = require("./controllers/GameController")
 module.exports = (app, io) ->
 
   #account routes
-  app.post "/account/create", accountController.create
+  app.post "/account", accountController.create
   app.get "/account/:username", accountController.read
+  app.post "/account/login", accountController.login
   
   #auth routes
   
