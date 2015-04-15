@@ -18,7 +18,7 @@ module.exports = (io) ->
         _playerId = socket.request.session.playerId
       #check if the socket event contained the roomId
       if data.roomId?
-        _roomId = data.roomId;
+        _roomId = data.roomId
         socket.join _roomId
       #otherwise return an error
       else
@@ -27,6 +27,9 @@ module.exports = (io) ->
       Account.findOne({_id: _playerId}).exec (err, account) ->
         if !err? and account?
           Room.findOne({_id: _roomId}).exec (err, room) ->
+            #add player to room's player list
+            room.players.push account
+            room.save()
             #send word to the client
             socket.emit "word", {word: room.word}
             #send all the existing definitions to the client
@@ -34,9 +37,13 @@ module.exports = (io) ->
               socket.emit "definition", definition
             #tell client all the other connected clients
             for player in room.players
-              socket.emit "connect", {username: player.username}
+              socket.emit "playerJoin", {username: player.username}
             #tell all other clients that this one connected
             io.to(_roomId).emit "connect", {username: account.username}
+            #if they already submitted, hide the submission bar
+            for definition in room.definitions
+              if _playerId == definition.playerId
+                socket.emit "hideInput"
         else
           socket.emit "message", {error: "Couldn't find the account '#{_playerId}'"}
     #------------------------------------------
@@ -62,3 +69,10 @@ module.exports = (io) ->
             #check if the number of definitions is equal to the number of clients
             if room.definitions.length >= numConnectedClients
               io.to(_roomId).emit "done", {message: "All definitions have been submitted"}
+    socket.on "disconnect", () ->
+      console.log _roomId
+      console.log "disconnect"
+      Room.findOne({_id: _roomId}).exec (err, room) ->
+        if !err? and player?
+          room.definitions.forEach (player, i) ->
+            console.log "found one"

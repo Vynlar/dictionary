@@ -11,7 +11,7 @@ module.exports = {
   read: (req, res) ->
     Room.findOne({_id: req.params.id}).exec (err, room) ->
       if(err)
-        res.send(404);
+        res.send(404)
       else
         res.render "game", {roomId: room._id}
 }
