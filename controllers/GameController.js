@@ -30,38 +30,44 @@
             return Room.findOne({
               _id: _roomId
             }).exec(function(err, room) {
-              var definition, j, k, l, len, len1, len2, player, ref, ref1, ref2, results;
-              room.players.push(account);
-              room.save();
+              var definition, j, k, l, len, len1, len2, len3, m, player, ref, ref1, ref2, ref3;
+              ref = room.players;
+              for (j = 0, len = ref.length; j < len; j++) {
+                player = ref[j];
+                if (player._id.equals(account._id)) {
+                  socket.emit("message", {
+                    message: "Account already in room"
+                  });
+                  return;
+                }
+              }
               socket.emit("word", {
                 word: room.word
               });
-              ref = room.definitions;
-              for (j = 0, len = ref.length; j < len; j++) {
-                definition = ref[j];
+              ref1 = room.definitions;
+              for (k = 0, len1 = ref1.length; k < len1; k++) {
+                definition = ref1[k];
                 socket.emit("definition", definition);
               }
-              ref1 = room.players;
-              for (k = 0, len1 = ref1.length; k < len1; k++) {
-                player = ref1[k];
+              ref2 = room.players;
+              for (l = 0, len2 = ref2.length; l < len2; l++) {
+                player = ref2[l];
                 socket.emit("playerJoin", {
                   username: player.username
                 });
               }
-              io.to(_roomId).emit("connect", {
+              io.to(_roomId).emit("playerJoin", {
                 username: account.username
               });
-              ref2 = room.definitions;
-              results = [];
-              for (l = 0, len2 = ref2.length; l < len2; l++) {
-                definition = ref2[l];
+              ref3 = room.definitions;
+              for (m = 0, len3 = ref3.length; m < len3; m++) {
+                definition = ref3[m];
                 if (_playerId === definition.playerId) {
-                  results.push(socket.emit("hideInput"));
-                } else {
-                  results.push(void 0);
+                  socket.emit("hideInput");
                 }
               }
-              return results;
+              room.players.push(account);
+              return room.save();
             });
           } else {
             return socket.emit("message", {
@@ -97,15 +103,31 @@
         }
       });
       return socket.on("disconnect", function() {
-        console.log(_roomId);
-        console.log("disconnect");
+        Account.findOne({
+          _id: _playerId
+        }).exec(function(err, account) {
+          if ((err != null) || (account == null)) {
+            socket.emit("message", {
+              message: "Error finding account when destroying."
+            });
+            return console.log("Error finding account. There may be duplicates in room " + _roomId);
+          } else {
+            return io.to(_roomId).emit("playerLeave", {
+              username: account.username
+            });
+          }
+        });
         return Room.findOne({
           _id: _roomId
         }).exec(function(err, room) {
-          if ((err == null) && (typeof player !== "undefined" && player !== null)) {
-            return room.definitions.forEach(function(player, i) {
-              return console.log("found one");
-            });
+          var i, j, ref;
+          if ((err == null) && (room != null)) {
+            for (i = j = ref = room.players.length - 1; ref <= 0 ? j <= 0 : j >= 0; i = ref <= 0 ? ++j : --j) {
+              if (room.players[i]._id.equals(_playerId)) {
+                room.players.splice(i, 1);
+              }
+            }
+            return room.save();
           }
         });
       });

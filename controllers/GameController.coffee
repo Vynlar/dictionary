@@ -27,9 +27,11 @@ module.exports = (io) ->
       Account.findOne({_id: _playerId}).exec (err, account) ->
         if !err? and account?
           Room.findOne({_id: _roomId}).exec (err, room) ->
-            #add player to room's player list
-            room.players.push account
-            room.save()
+            #check if the player is still in the room
+            for player in room.players
+              if player._id.equals account._id
+                socket.emit "message", {message: "Account already in room"}
+                return
             #send word to the client
             socket.emit "word", {word: room.word}
             #send all the existing definitions to the client
@@ -39,11 +41,14 @@ module.exports = (io) ->
             for player in room.players
               socket.emit "playerJoin", {username: player.username}
             #tell all other clients that this one connected
-            io.to(_roomId).emit "connect", {username: account.username}
+            io.to(_roomId).emit "playerJoin", {username: account.username}
             #if they already submitted, hide the submission bar
             for definition in room.definitions
               if _playerId == definition.playerId
                 socket.emit "hideInput"
+            #add player to room's player list
+            room.players.push account
+            room.save()
         else
           socket.emit "message", {error: "Couldn't find the account '#{_playerId}'"}
     #------------------------------------------
@@ -70,9 +75,15 @@ module.exports = (io) ->
             if room.definitions.length >= numConnectedClients
               io.to(_roomId).emit "done", {message: "All definitions have been submitted"}
     socket.on "disconnect", () ->
-      console.log _roomId
-      console.log "disconnect"
+      Account.findOne({_id: _playerId}).exec (err, account) ->
+        if err? or !account?
+          socket.emit "message", {message: "Error finding account when destroying."}
+          console.log "Error finding account. There may be duplicates in room #{_roomId}"
+        else
+          io.to(_roomId).emit "playerLeave", {username: account.username}
       Room.findOne({_id: _roomId}).exec (err, room) ->
-        if !err? and player?
-          room.definitions.forEach (player, i) ->
-            console.log "found one"
+        if !err? and room?
+          for i in [room.players.length-1..0]
+            if room.players[i]._id.equals _playerId
+              room.players.splice i, 1
+          room.save()
