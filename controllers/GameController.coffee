@@ -75,6 +75,7 @@ module.exports = (io) ->
             if room.definitions.length >= numConnectedClients
               io.to(_roomId).emit "done", {message: "All definitions have been submitted"}
     socket.on "disconnect", () ->
+      #remove the player from the room on disconnect
       Account.findOne({_id: _playerId}).exec (err, account) ->
         if err? or !account?
           socket.emit "message", {message: "Error finding account when destroying."}
@@ -87,3 +88,11 @@ module.exports = (io) ->
             if room.players[i]._id.equals _playerId
               room.players.splice i, 1
           room.save()
+    socket.on "vote", (data) ->
+      #when a user sends a vote in
+      Room.findOne({_id: _roomId}).exec (err, room) ->
+        room.definitions.forEach (entry, id) ->
+          if entry.playerId == data.playerId
+            entry.votes.push data.playerId
+            room.save()
+          io.to(_roomId).emit "vote", {playerId: data.playerId}

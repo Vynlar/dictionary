@@ -22,7 +22,8 @@
     definitions: [
       mongoose.Schema({
         definition: String,
-        playerId: String
+        playerId: String,
+        votes: [String]
       })
     ],
     status: {

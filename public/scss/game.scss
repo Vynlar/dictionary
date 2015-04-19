@@ -49,9 +49,15 @@ $verticalOffset: 30%;
   background: rgb(230,230,230);
   padding: 1rem;
   word-wrap: normal;
+  
 
   h5 {
     margin: 0;
+
+    .ng-hide {
+      display: block!important;
+      visibility: hidden;
+    }
   }
 
   a {

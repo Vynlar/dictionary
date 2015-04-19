@@ -6,10 +6,10 @@
       $scope.joined = false;
       $scope.join = function() {
         if ($scope.roomId != null) {
-          return $location.path(location.host + "/room/" + $scope.roomId);
+          return window.location.replace("http://" + location.host + "/room/" + $scope.roomId);
         }
       };
-      names = ["George Orwell", "Oscar Wilde", "Aphra Behn", "Dave Chapelle", "Your Mom", "Adrian Aleixandre", "Nick deGarmo", "Kolya Venturi"];
+      names = ["George Orwell", "Oscar Wilde", "Aphra Behn", "Dave Chapelle", "Your Mom", "Adrian Aleixandre", "Nick deGarmo", "Nina Bice", "Kolya Venturi"];
       return $scope.name = names[Math.floor(Math.random() * names.length)];
     }
   ]);

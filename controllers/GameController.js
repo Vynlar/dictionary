@@ -102,7 +102,7 @@
           });
         }
       });
-      return socket.on("disconnect", function() {
+      socket.on("disconnect", function() {
         Account.findOne({
           _id: _playerId
         }).exec(function(err, account) {
@@ -129,6 +129,21 @@
             }
             return room.save();
           }
+        });
+      });
+      return socket.on("vote", function(data) {
+        return Room.findOne({
+          _id: _roomId
+        }).exec(function(err, room) {
+          return room.definitions.forEach(function(entry, id) {
+            if (entry.playerId === data.playerId) {
+              entry.votes.push(data.playerId);
+              room.save();
+            }
+            return io.to(_roomId).emit("vote", {
+              playerId: data.playerId
+            });
+          });
         });
       });
     });

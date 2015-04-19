@@ -54,6 +54,6 @@ html(ng-app="DictionaryGame")
       
       .row.definition(ng-repeat="definition in definitions", ng-class="{'voted': $index == voted}")
         .ten.columns
-          h5 {{definition.definition}}
+          h5 {{definition.voteCount}} | {{definition.definition}}
         .two.columns
-          a.button(href="#", ng-click="vote($index)", ng-show="$index != voted", ng-if="canVote") Vote
+          a.button(ref="#", ng-click="vote($index)", ng-show="$index != voted", ng-if="canVote") Vote

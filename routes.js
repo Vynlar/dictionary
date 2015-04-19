@@ -12,7 +12,9 @@
     app.post("/account", accountController.create);
     app.get("/account/:username", accountController.read);
     app.post("/account/login", accountController.login);
-    app.post("/account/login", accountController.login);
+    app.get("/login", function(req, res) {
+      return res.render("login");
+    });
     app.get("/room/create", roomController.create);
     app.get("/room/:id", roomController.read);
     app.get("/", function(req, res) {

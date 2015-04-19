@@ -21,6 +21,8 @@
       }).exec(function(err, room) {
         if (err) {
           return res.send(404);
+        } else if (req.session.playerId == null) {
+          return res.redirect("/login");
         } else {
           return res.render("game", {
             roomId: room._id

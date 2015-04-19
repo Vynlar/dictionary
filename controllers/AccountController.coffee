@@ -24,12 +24,16 @@ module.exports = {
     delete: (req, res) ->
       
     login: (req, res) ->
+      console.log req.body.username
       Account.findOne({username: req.body.username}).exec (err, account) ->
+        console.log account
+        if err? or !account?
+          return res.json {message: "Incorrect username or password."}
         bcrypt.compare req.body.password, account.password, (err, valid) ->
           if valid
             req.session.playerId = account._id
-            res.json {message: "Successfully logged in."}
+            res.json {success: true}
           else
             req.session.playerId = null
-            res.json {message: "Incorrect username or password"}
+            res.json {success: false}
 }

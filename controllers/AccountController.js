@@ -51,19 +51,26 @@
     update: function(req, res) {},
     "delete": function(req, res) {},
     login: function(req, res) {
+      console.log(req.body.username);
       return Account.findOne({
         username: req.body.username
       }).exec(function(err, account) {
+        console.log(account);
+        if ((err != null) || (account == null)) {
+          return res.json({
+            message: "Incorrect username or password."
+          });
+        }
         return bcrypt.compare(req.body.password, account.password, function(err, valid) {
           if (valid) {
             req.session.playerId = account._id;
             return res.json({
-              message: "Successfully logged in."
+              success: true
             });
           } else {
             req.session.playerId = null;
             return res.json({
-              message: "Incorrect username or password"
+              success: false
             });
           }
         });
