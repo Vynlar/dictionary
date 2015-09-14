@@ -26,7 +26,7 @@ module.exports = {
     login: (req, res) ->
       console.log req.body.username
       Account.findOne({username: req.body.username}).exec (err, account) ->
-        console.log account
+        console.log "AccountController: login(): " + account
         if err? or !account?
           return res.json {message: "Incorrect username or password."}
         bcrypt.compare req.body.password, account.password, (err, valid) ->

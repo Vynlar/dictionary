@@ -14,7 +14,7 @@ module.exports = (io) ->
     socket.on "join", (data) ->
       #check if the user is authenticated
       if socket.request.session.playerId?
-        #if so, save the player id to a variable
+      #if so, save the player id to a variable
         _playerId = socket.request.session.playerId
       #check if the socket event contained the roomId
       if data.roomId?

@@ -1,0 +1,54 @@
+doctype html
+head
+  //
+    Basic Page Needs
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(charset='utf-8')
+  title Dictionary
+  meta(name='description', content='')
+  meta(name='author', content='')
+  //
+    Mobile Specific Metas
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  //
+    FONT
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
+  //
+    CSS
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='stylesheet', href='../css/normalize.css')
+  link(rel='stylesheet', href='../css/skeleton.css')
+  link(rel='stylesheet', href='../css/index.css')
+  //
+    Favicon
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='icon', type='image/png', href='../images/favicon.png')
+  script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js")
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+  script(src="../js/registerCtrl.js")
+//
+  Primary Page Layout
+  ––––––––––––––––––––––––––––––––––––––––––––––––––
+body(ng-app="RegisterPage")
+  .container#mainContainer(ng-controller="RegisterController")
+    .row#header
+      .column
+        h1 Register
+        h7.subheading create your account below
+    .row#startNav
+      .six.columns#usernameInput
+        input(type="text", placeholder="Username", ng-model="username")
+    .row
+      .three.columns#passwordInput
+        input(type="password", placeholder="Password", ng-model="password", ng-change="update()")
+      .three.columns#passwordInputConfirm
+        input(type="password", placeholder="Confirm", ng-model="passwordConfirm", ng-change="update()", ng-class="confirmStyle")
+      .two.columns#registerButton
+        a.button(href="#", ng-click="register()") Register 
+  .container#footer
+    .row
+      .six.columns#content
+        p Created by 
+          a(href="http://vynlar.com") Adrian Aleixandre

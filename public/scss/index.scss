@@ -22,6 +22,15 @@
   }
 }
 
+.green {
+  background-color: lighten(rgb(0,1,0), 93%) !important;
+  border-color: lighten(rgb(0,1,0), 63%) !important;
+}
+.red {
+  background-color: lighten(rgb(1,0,0), 93%) !important;
+  border-color: lighten(rgb(1,0,0), 63%) !important;
+}
+
 #footer {
   margin-top: 2rem;
   color: grey;

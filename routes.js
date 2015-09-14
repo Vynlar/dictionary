@@ -15,12 +15,19 @@
     app.get("/login", function(req, res) {
       return res.render("login");
     });
+    app.get("/register", function(req, res) {
+      return res.render("register");
+    });
+    app.get("/logout", function(req, res) {
+      req.session.playerId = null;
+      return res.send("Good job");
+    });
     app.get("/room/create", roomController.create);
     app.get("/room/:id", roomController.read);
-    app.get("/", function(req, res) {
+    gameController(io);
+    return app.get("/", function(req, res) {
       return res.render("index");
     });
-    return gameController(io);
   };
 
 }).call(this);

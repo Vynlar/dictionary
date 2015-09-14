@@ -1,0 +1,51 @@
+doctype html
+head
+  //
+    Basic Page Needs
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(charset='utf-8')
+  title Dictionary
+  meta(name='description', content='')
+  meta(name='author', content='')
+  //
+    Mobile Specific Metas
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  //
+    FONT
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(href='//fonts.googleapis.com/css?family=Raleway:400,300,600', rel='stylesheet', type='text/css')
+  //
+    CSS
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='stylesheet', href='../css/normalize.css')
+  link(rel='stylesheet', href='../css/skeleton.css')
+  link(rel='stylesheet', href='../css/index.css')
+  //
+    Favicon
+    ––––––––––––––––––––––––––––––––––––––––––––––––––
+  link(rel='icon', type='image/png', href='../images/favicon.png')
+  script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js")
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+  script(src="../js/login.js")
+//
+  Primary Page Layout
+  ––––––––––––––––––––––––––––––––––––––––––––––––––
+body(ng-app="LoginPage")
+  .container#mainContainer(ng-controller="LoginController")
+    .row#header
+      .column
+        h1 Login 
+        h7.subheading enter your username and password below
+    .row#startNav
+      .three.columns#usernameInput
+        input(type="text", placeholder="Username", ng-model="username")
+      .three.columns#passwordInput
+        input(type="password", placeholder="Password", ng-model="password")
+      .two.columns#joinButton
+        a.button(href="#", ng-click="login()") Login
+  .container#footer
+    .row
+      .six.columns#content
+        p Created by 
+          a(href="http://vynlar.com") Adrian Aleixandre

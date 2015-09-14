@@ -1,1 +1,34 @@
-#mainContainer #header{margin-top:25%}#mainContainer #header h1{line-height:1.2rem}#mainContainer #startNav{margin-top:3rem}#mainContainer #startNav a{width:100%}#mainContainer #startNav #roomIdInput{margin-bottom:0}#mainContainer #startNav #joinButton{margin-left:0}#footer{margin-top:2rem;color:grey}#footer #content{margin:0}#footer #content a{color:grey}#footer #content .spacer{padding-left:1px;height:1rem;background:grey;margin-left:0.7rem;margin-right:0.7rem}
+#mainContainer #header {
+  margin-top: 25%; }
+  #mainContainer #header h1 {
+    line-height: 1.2rem; }
+#mainContainer #startNav {
+  margin-top: 3rem; }
+  #mainContainer #startNav a {
+    width: 100%; }
+  #mainContainer #startNav #roomIdInput {
+    margin-bottom: 0; }
+  #mainContainer #startNav #joinButton {
+    margin-left: 0; }
+
+.green {
+  background-color: #dcffdc !important;
+  border-color: #43ff43 !important; }
+
+.red {
+  background-color: #ffdcdc !important;
+  border-color: #ff4343 !important; }
+
+#footer {
+  margin-top: 2rem;
+  color: grey; }
+  #footer #content {
+    margin: 0; }
+    #footer #content a {
+      color: grey; }
+    #footer #content .spacer {
+      padding-left: 1px;
+      height: 1rem;
+      background: grey;
+      margin-left: .7rem;
+      margin-right: .7rem; }

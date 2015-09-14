@@ -8,18 +8,22 @@ module.exports = (app, io) ->
   app.post "/account", accountController.create
   app.get "/account/:username", accountController.read
   app.post "/account/login", accountController.login
+
   app.get "/login", (req, res) ->
     res.render "login"
-  
-  #auth routes
-  
 
+  app.get "/register", (req, res) ->
+    res.render "register"
+
+  app.get "/logout", (req, res) ->
+    req.session.playerId = null
+    res.send "Good job"
+  
   #room/game routes
   app.get "/room/create", roomController.create
   app.get "/room/:id", roomController.read
+  gameController io
 
   #index route
   app.get "/", (req, res) ->
     res.render "index"
-
-  gameController io
