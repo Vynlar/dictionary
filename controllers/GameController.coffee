@@ -18,7 +18,7 @@ module.exports = (io) ->
         _playerId = socket.request.session.playerId
       #check if the socket event contained the roomId
       if data.roomId?
-        _roomId = data.roomId;
+        _roomId = data.roomId
         socket.join _roomId
       #otherwise return an error
       else
@@ -62,3 +62,23 @@ module.exports = (io) ->
             #check if the number of definitions is equal to the number of clients
             if room.definitions.length >= numConnectedClients
               io.to(_roomId).emit "done", {message: "All definitions have been submitted"}
+    socket.on "disconnect", (data) ->
+      #check if the room and player variables are defined
+      if _playerId? and _roomId?
+        Room.findOne({_id: _roomId}).exec (err, room) ->
+          if err or !room?
+            #couldn't find room
+          else
+            #tell all the clients about it
+            io.to(_roomId).emit "playerDisconnect", _playerId
+    socket.on "vote", (data) ->
+      Account.findOne({_id: _playerId}).exec (err, account) ->
+        if !err? and account?
+          Room.findOne({_id: _roomId}).exec (err, room) ->
+            for def in room.definitions
+              if def.votes.includes _playerId
+                return
+              else if def.playerId == data
+                room.definitions.votes.push(_playerId)
+                console.log room.definitions.votes
+                room.save()

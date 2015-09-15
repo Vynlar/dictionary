@@ -21,8 +21,10 @@
   "homepage": "https://github.com/vynlar/dictionary",
   "dependencies": {
     "acorn": "^1.0.3",
+    "bcrypt": "^0.8.5",
     "bcryptjs": "^2.1.0",
     "body-parser": "^1.12.2",
+    "bson": "^0.4.11",
     "character-parser": "^1.2.2",
     "coffee-script": "^1.9.1",
     "debug": "^2.1.3",

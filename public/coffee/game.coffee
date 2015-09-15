@@ -27,6 +27,10 @@ angular.module("DictionaryGame", [])
 
   $scope.socket.on "connect", (data) ->
     $scope.players.push data
+  
+  $scope.socket.on "voted", (data) ->
+    $scope.canVote = false
+    $scope.voted = data
 
   $scope.socket.on "message", (data) ->
     if data.error?
@@ -47,4 +51,5 @@ angular.module("DictionaryGame", [])
   $scope.vote = (index) ->
     if($scope.voted == -1)
       $scope.voted = index
+      $scope.socket.emit "vote", $scope.definitions[index].playerId
   )
